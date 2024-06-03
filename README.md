@@ -11,3 +11,6 @@ IGNORAR:
 
 Esos dos archivos.
 
+MongoDB:
+dotnet add package MongoDB.Driver
+
