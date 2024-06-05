@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TodoApi.Controllers
 {
@@ -39,7 +40,6 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<Usuario>> CreateUsuario(Usuario usuario)
         {
             await _usuarioService.CreateAsync(usuario);
-
             return CreatedAtRoute("GetUsuario", new { id = usuario.Id }, usuario);
         }
 
@@ -72,6 +72,22 @@ namespace TodoApi.Controllers
             await _usuarioService.RemoveAsync(id);
 
             return NoContent();
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult<Usuario>> Login([FromBody] LoginRequest request)
+        {
+            var usuario = await _usuarioService.AuthenticateAsync(request.Gmail, request.Password);
+
+            if (usuario == null)
+            {
+                Console.WriteLine("Inicio de sesión fallido: Credenciales incorrectas"); // Agregar comentario
+                return Unauthorized();
+            }
+
+            Console.WriteLine($"Inicio de sesión exitoso: Bienvenido, {usuario.Nombre}"); // Agregar comentario
+
+            return Ok(usuario);
         }
     }
 }

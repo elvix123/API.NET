@@ -43,7 +43,6 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
             await _movieService.CreateAsync(movie);
-
             return CreatedAtRoute("GetMovie", new { id = movie.Id }, movie);
         }
 
@@ -59,7 +58,6 @@ namespace TodoApi.Controllers
             }
 
             updatedMovie.Id = movie.Id;
-
             await _movieService.UpdateAsync(id, updatedMovie);
 
             return NoContent();
@@ -77,7 +75,6 @@ namespace TodoApi.Controllers
             }
 
             await _movieService.RemoveAsync(id);
-
             return NoContent();
         }
     }

@@ -40,17 +40,8 @@ namespace TodoApi.Controllers
         public async Task<ActionResult<Visualizacion>> CreateVisualizacion(Visualizacion visualizacion)
         {
             await _visualizacionService.CreateAsync(visualizacion);
-
             return CreatedAtRoute("GetVisualizacion", new { id = visualizacion.Id }, visualizacion);
         }
-
-
-
-
-        
-
-
-        
 
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdateVisualizacion(string id, Visualizacion updatedVisualizacion)
@@ -63,7 +54,6 @@ namespace TodoApi.Controllers
             }
 
             updatedVisualizacion.Id = visualizacion.Id;
-
             await _visualizacionService.UpdateAsync(id, updatedVisualizacion);
 
             return NoContent();
@@ -80,8 +70,20 @@ namespace TodoApi.Controllers
             }
 
             await _visualizacionService.RemoveAsync(id);
-
             return NoContent();
+        }
+
+        [HttpGet("Usuario/{idUsuario}")]
+        public async Task<ActionResult<Usuario>> GetUsuario(string idUsuario)
+        {
+            var usuario = await _visualizacionService.GetUsuarioAsync(idUsuario);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(usuario);
         }
     }
 }
